@@ -1,0 +1,196 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Infrastructure/QarzAlHasana.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj",
+        "projectName": "QarzAlHasana.Application",
+        "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj",
+        "packagesPath": "/Users/mohammadhossein/.nuget/packages/",
+        "outputPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mohammadhossein/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net10.0": {
+            "targetAlias": "net10.0",
+            "projectReferences": {
+              "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj": {
+                "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj",
+        "projectName": "QarzAlHasana.Domain",
+        "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj",
+        "packagesPath": "/Users/mohammadhossein/.nuget/packages/",
+        "outputPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mohammadhossein/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net10.0": {
+            "targetAlias": "net10.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Infrastructure/QarzAlHasana.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Infrastructure/QarzAlHasana.Infrastructure.csproj",
+        "projectName": "QarzAlHasana.Infrastructure",
+        "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Infrastructure/QarzAlHasana.Infrastructure.csproj",
+        "packagesPath": "/Users/mohammadhossein/.nuget/packages/",
+        "outputPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mohammadhossein/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net10.0": {
+            "targetAlias": "net10.0",
+            "projectReferences": {
+              "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj": {
+                "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj"
+              },
+              "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj": {
+                "projectPath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/QarzAlHasana.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net10.0": {
+          "targetAlias": "net10.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.301/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
