@@ -1,0 +1,16 @@
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/bin/Debug/net10.0/QarzAlHasana.Application.deps.json
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/bin/Debug/net10.0/QarzAlHasana.Application.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/bin/Debug/net10.0/QarzAlHasana.Application.pdb
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/bin/Debug/net10.0/QarzAlHasana.Domain.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/bin/Debug/net10.0/QarzAlHasana.Domain.pdb
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.csproj.AssemblyReference.cache
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.AssemblyInfoInputs.cache
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.AssemblyInfo.cs
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.csproj.CoreCompileInputs.cache
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.sourcelink.json
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHa.2BC4DDEA.Up2Date
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/refint/QarzAlHasana.Application.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/QarzAlHasana.Application.pdb
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/obj/Debug/net10.0/ref/QarzAlHasana.Application.dll

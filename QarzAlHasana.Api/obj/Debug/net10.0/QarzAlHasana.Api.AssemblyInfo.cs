@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0fc512c2d6f4921f1ff4957516a7e889ffb32a33")]
 [assembly: System.Reflection.AssemblyProductAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

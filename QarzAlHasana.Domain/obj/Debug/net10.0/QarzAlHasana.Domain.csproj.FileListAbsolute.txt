@@ -1,0 +1,12 @@
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/bin/Debug/net10.0/QarzAlHasana.Domain.deps.json
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/bin/Debug/net10.0/QarzAlHasana.Domain.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/bin/Debug/net10.0/QarzAlHasana.Domain.pdb
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.AssemblyInfoInputs.cache
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.AssemblyInfo.cs
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.csproj.CoreCompileInputs.cache
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.sourcelink.json
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/refint/QarzAlHasana.Domain.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/QarzAlHasana.Domain.pdb
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Domain/obj/Debug/net10.0/ref/QarzAlHasana.Domain.dll

@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "QarzAlHasana.Infrastructure/1.0.0": {
+        "dependencies": {
+          "QarzAlHasana.Application": "1.0.0",
+          "QarzAlHasana.Domain": "1.0.0"
+        },
+        "runtime": {
+          "QarzAlHasana.Infrastructure.dll": {}
+        }
+      },
+      "QarzAlHasana.Application/1.0.0": {
+        "dependencies": {
+          "QarzAlHasana.Domain": "1.0.0"
+        },
+        "runtime": {
+          "QarzAlHasana.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "QarzAlHasana.Domain/1.0.0": {
+        "runtime": {
+          "QarzAlHasana.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "QarzAlHasana.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QarzAlHasana.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QarzAlHasana.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
