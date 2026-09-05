@@ -18,6 +18,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAdminRepository, AdminRepository>();
         services.AddScoped<ILoanRequestRepository, LoanRequestRepository>();
         services.AddScoped<IInstallmentRepository, InstallmentRepository>();
