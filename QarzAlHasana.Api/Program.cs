@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QarzAlHasana.Infrastructure;
 using QarzAlHasana.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
