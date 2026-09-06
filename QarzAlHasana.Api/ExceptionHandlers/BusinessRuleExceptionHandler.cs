@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QarzAlHasana.Domain.Exceptions;
 using QarzAlHasanaSystem.Application.Common.Exceptions;
 
 namespace QarzAlHasana.Api.ExceptionHandlers;

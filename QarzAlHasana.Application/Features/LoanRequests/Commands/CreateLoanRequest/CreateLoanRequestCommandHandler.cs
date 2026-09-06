@@ -1,14 +1,12 @@
 using MediatR;
 using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
-using QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
+using QarzAlHasana.Domain.Exceptions;
 using QarzAlHasanaSystem.Application.Common.Exceptions;
 
-
-
-namespace QarzAlHasanaSystem.Application.Features.LoanRequests.Commands.CreateLoanRequest;
+namespace QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
 
 public class CreateLoanRequestCommandHandler
     : IRequestHandler<CreateLoanRequestCommand, Guid>

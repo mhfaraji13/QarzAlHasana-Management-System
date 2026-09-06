@@ -1,4 +1,4 @@
-namespace QarzAlHasanaSystem.Application.Common.Exceptions;
+namespace QarzAlHasana.Domain.Exceptions;
 
 public class BusinessRuleException : Exception
 {
