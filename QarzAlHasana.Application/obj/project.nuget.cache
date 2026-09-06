@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4WwvHMO9E/M=",
+  "dgSpecHash": "H9z2uGxVXHs=",
   "success": true,
   "projectFilePath": "/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Application/QarzAlHasana.Application.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,8 @@
     "/Users/mohammadhossein/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/Users/mohammadhossein/.nuget/packages/mediatr/12.5.0/mediatr.12.5.0.nupkg.sha512",
     "/Users/mohammadhossein/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
-    "/Users/mohammadhossein/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+    "/Users/mohammadhossein/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.11/microsoft.extensions.dependencyinjection.abstractions.10.0.11.nupkg.sha512",
+    "/Users/mohammadhossein/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.11/microsoft.extensions.logging.abstractions.10.0.11.nupkg.sha512"
   ],
   "logs": []
 }
