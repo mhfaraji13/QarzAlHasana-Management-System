@@ -105,4 +105,42 @@ public class LoanRequest : BaseEntity
         RejectionReason = rejectionReason.Trim();
         ReviewedDate = DateTime.UtcNow;
     }
+    
+    public void PayInstallment(Guid installmentId, decimal amountPaid, DateTime paymentDate)
+    {
+        if (Status != LoanStatus.Approved)
+        {
+            throw new BusinessRuleException(
+                "LOAN_NOT_APPROVED",
+                $"Faghat baraye vam-e taeed-shode mitavan ghest pardakht kard. Vaziat-e feli: {Status}");
+        }
+
+        var nextInstallment = Installments
+            .Where(i => i.Status == InstallmentStatus.Unpaid)
+            .OrderBy(i => i.InstallmentNumber)
+            .FirstOrDefault();
+
+        if (nextInstallment is null)
+        {
+            throw new BusinessRuleException(
+                "NO_UNPAID_INSTALLMENTS",
+                "Hich ghest-e pardakht-nashode-i baraye in vam vojood nadarad.");
+        }
+
+        if (nextInstallment.Id != installmentId)
+        {
+            throw new BusinessRuleException(
+                "INSTALLMENT_OUT_OF_ORDER",
+                $"Aghsat bayad be tartib pardakht shavand. Ghest-e ba'di, shomare {nextInstallment.InstallmentNumber} ast.");
+        }
+
+        nextInstallment.Pay(paymentDate, amountPaid);
+
+        if (Installments.All(i => i.Status == InstallmentStatus.Paid))
+        {
+            Status = LoanStatus.Paid;
+        }
+
+        UpdatedAt = paymentDate;
+    }
 }
