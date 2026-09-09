@@ -88,4 +88,21 @@ public class LoanRequest : BaseEntity
             });
         }
     }
+    
+    public void Reject(string rejectionReason)
+    {
+        if (Status != LoanStatus.Pending)
+            throw new BusinessRuleException(
+                "LOAN_NOT_PENDING",
+                "Only pending loan requests can be rejected.");
+
+        if (string.IsNullOrWhiteSpace(rejectionReason))
+            throw new BusinessRuleException(
+                "REJECTION_REASON_REQUIRED",
+                "Rejection reason is required.");
+
+        Status = LoanStatus.Rejected;
+        RejectionReason = rejectionReason.Trim();
+        ReviewedDate = DateTime.UtcNow;
+    }
 }

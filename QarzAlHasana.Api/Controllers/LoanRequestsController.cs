@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QarzAlHasana.API.Contracts.LoanRequests;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.ApproveLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
+using QarzAlHasana.Application.Features.LoanRequests.Commands.RejectLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetMemberLoanRequests;
 
 namespace QarzAlHasana.Api.Controllers;
@@ -50,6 +52,19 @@ public sealed class LoanRequestsController : ControllerBase
         CancellationToken cancellationToken)
     {
         await _sender.Send(new ApproveLoanRequestCommand(id), cancellationToken);
+        return NoContent();
+    }
+    
+    [HttpPost("{id:guid}/reject")]
+    public async Task<IActionResult> Reject(
+        Guid id,
+        [FromBody] RejectLoanRequestRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new RejectLoanRequestCommand(id, request.RejectionReason);
+
+        await _sender.Send(command, cancellationToken);
+
         return NoContent();
     }
 }
