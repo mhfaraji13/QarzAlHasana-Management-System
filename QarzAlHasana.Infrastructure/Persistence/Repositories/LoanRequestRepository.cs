@@ -57,6 +57,15 @@ public class LoanRequestRepository : ILoanRequestRepository
                 cancellationToken);
     }
 
+    public async Task<LoanRequest?> GetByIdWithInstallmentsAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        return await _context.LoanRequests
+            .Include(l => l.Installments)
+            .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+    }
+
     public async Task AddAsync(LoanRequest loanRequest, CancellationToken cancellationToken = default)
     {
         await _context.LoanRequests.AddAsync(loanRequest, cancellationToken);

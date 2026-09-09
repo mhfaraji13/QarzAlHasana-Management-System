@@ -167,8 +167,14 @@ namespace QarzAlHasana.Infrastructure.Migrations
                     b.Property<Guid>("LoanRequestId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal?>("PaidAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("PaidDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("PenaltyAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

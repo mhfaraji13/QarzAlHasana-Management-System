@@ -14,6 +14,7 @@ public interface ILoanRequestRepository
     Task<IReadOnlyList<LoanRequest>> GetByStatusAsync(LoanStatus status, CancellationToken cancellationToken = default);
 
     Task<bool> HasActiveLoanAsync(Guid memberId, CancellationToken cancellationToken = default);
+    Task<LoanRequest?> GetByIdWithInstallmentsAsync(Guid id, CancellationToken cancellationToken);
 
     Task AddAsync(LoanRequest loanRequest, CancellationToken cancellationToken = default);
 

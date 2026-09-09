@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.LoanRequests;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.ApproveLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
+using QarzAlHasana.Application.Features.LoanRequests.Commands.PayInstallment;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.RejectLoanRequest;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetLoanInstallments;
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetMemberLoanRequests;
 
 namespace QarzAlHasana.Api.Controllers;
@@ -66,5 +68,39 @@ public sealed class LoanRequestsController : ControllerBase
         await _sender.Send(command, cancellationToken);
 
         return NoContent();
+    }
+    [HttpPost("{id:guid}/installments/{installmentId:guid}/pay")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> PayInstallment(
+        [FromRoute] Guid id,
+        [FromRoute] Guid installmentId,
+        [FromBody] PayInstallmentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new PayInstallmentCommand(
+            id,
+            installmentId,
+            request.AmountPaid);
+
+        await _sender.Send(command, cancellationToken);
+
+        return NoContent();
+    }
+    
+    [HttpGet("{id:guid}/installments")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetInstallments(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(
+            new GetLoanInstallmentsQuery(id),
+            cancellationToken);
+
+        return Ok(result);
     }
 }
