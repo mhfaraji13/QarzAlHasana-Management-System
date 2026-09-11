@@ -1,3 +1,5 @@
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetLoanRequestById;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetPendingLoanRequests;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -15,6 +17,8 @@ public interface ILoanRequestRepository
 
     Task<bool> HasActiveLoanAsync(Guid memberId, CancellationToken cancellationToken = default);
     Task<LoanRequest?> GetByIdWithInstallmentsAsync(Guid id, CancellationToken cancellationToken);
+    Task<List<PendingLoanRequestDto>> GetPendingAsync(CancellationToken cancellationToken);
+    Task<LoanRequestDetailDto?> GetDetailByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task AddAsync(LoanRequest loanRequest, CancellationToken cancellationToken = default);
 

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetLoanRequestById;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetPendingLoanRequests;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -64,6 +66,64 @@ public class LoanRequestRepository : ILoanRequestRepository
         return await _context.LoanRequests
             .Include(l => l.Installments)
             .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+    }
+
+    public async Task<List<PendingLoanRequestDto>> GetPendingAsync(CancellationToken cancellationToken)
+    {
+        return await _context.LoanRequests
+            .AsNoTracking()
+            .Where(lr => lr.Status == LoanStatus.Pending)
+            .OrderBy(lr => lr.RequestDate)
+            .Select(lr => new PendingLoanRequestDto
+            {
+                Id = lr.Id,
+                MemberId = lr.MemberId,
+                MemberFullName = lr.Member.FirstName + " " + lr.Member.LastName,
+                Amount = lr.Amount,
+                InstallmentCount = lr.InstallmentCount,
+                Description = lr.Description,
+                RequestDate = lr.RequestDate
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<LoanRequestDetailDto?> GetDetailByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        return await _context.LoanRequests
+            .AsNoTracking()
+            .Where(lr => lr.Id == id)
+            .Select(lr => new LoanRequestDetailDto
+            {
+                Id = lr.Id,
+                Amount = lr.Amount,
+                InstallmentCount = lr.InstallmentCount,
+                Description = lr.Description,
+                Status = lr.Status,
+                RequestDate = lr.RequestDate,
+                ReviewedDate = lr.ReviewedDate,
+                RejectionReason = lr.RejectionReason,
+
+                MemberId = lr.MemberId,
+                MemberFullName = lr.Member.FirstName + " " + lr.Member.LastName,
+                MemberNationalCode = lr.Member.NationalCode,
+                MemberPhoneNumber = lr.Member.PhoneNumber,
+
+                Guarantors = lr.Guarantors
+                    .Select(g => new LoanGuarantorDto
+                    {
+                        Id = g.Id,
+                        GuarantorMemberId = g.GuarantorMemberId,
+                        GuarantorFullName = g.GuarantorMember.FirstName + " " + g.GuarantorMember.LastName,
+                        GuarantorPhoneNumber = g.GuarantorMember.PhoneNumber,
+                        CommittedAmount = g.CommittedAmount,
+                        IsConfirmed = g.IsConfirmed,
+                        ConfirmedDate = g.ConfirmedDate
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task AddAsync(LoanRequest loanRequest, CancellationToken cancellationToken = default)

@@ -6,7 +6,9 @@ using QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.PayInstallment;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.RejectLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetLoanInstallments;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetLoanRequestById;
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetMemberLoanRequests;
+using QarzAlHasana.Application.Features.LoanRequests.Queries.GetPendingLoanRequests;
 
 namespace QarzAlHasana.Api.Controllers;
 
@@ -29,7 +31,8 @@ public sealed class LoanRequestsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var id = await _sender.Send(command, cancellationToken);
-        return Ok(id);
+
+        return CreatedAtAction(nameof(GetById), new { id }, new { id });
     }
 
     [HttpGet("member/{memberId:guid}")]
@@ -100,6 +103,29 @@ public sealed class LoanRequestsController : ControllerBase
         var result = await _sender.Send(
             new GetLoanInstallmentsQuery(id),
             cancellationToken);
+
+        return Ok(result);
+    }
+    
+    /// <summary>Liste darkhast-haye vam-e dar entezar-e barresi. Vizhe-ye Admin.</summary>
+    [HttpGet("pending")]
+    [ProducesResponseType(typeof(List<PendingLoanRequestDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<PendingLoanRequestDto>>> GetPending(
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(new GetPendingLoanRequestsQuery(), cancellationToken);
+
+        return Ok(result);
+    }
+    /// <summary>Jozeiyât-e yek darkhâst-e vâm hamrâh bâ ozv va zâmen-hâ.</summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(LoanRequestDetailDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<LoanRequestDetailDto>> GetById(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(new GetLoanRequestByIdQuery(id), cancellationToken);
 
         return Ok(result);
     }
