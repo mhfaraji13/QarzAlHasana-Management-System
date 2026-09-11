@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QarzAlHasana.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QarzAlHasana.Api", "QarzAlHasana.Api\QarzAlHasana.Api.csproj", "{B4CEE960-B747-4111-8AB1-125CE00102B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QarzAlHasana.Domain.Tests", "QarzAlHasana.Domain.Tests\QarzAlHasana.Domain.Tests.csproj", "{8130992E-C74C-462A-984C-52CC3A5D1072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B4CEE960-B747-4111-8AB1-125CE00102B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4CEE960-B747-4111-8AB1-125CE00102B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4CEE960-B747-4111-8AB1-125CE00102B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8130992E-C74C-462A-984C-52CC3A5D1072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8130992E-C74C-462A-984C-52CC3A5D1072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8130992E-C74C-462A-984C-52CC3A5D1072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8130992E-C74C-462A-984C-52CC3A5D1072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
