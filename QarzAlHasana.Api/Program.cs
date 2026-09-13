@@ -1,6 +1,13 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using QarzAlHasana.Api.ExceptionHandlers;
+using QarzAlHasana.Api.Services;
 using QarzAlHasana.Infrastructure;
 using QarzAlHasana.Application;
+using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasanaSystem.Application;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,12 +24,66 @@ builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Token ra bedoon-e kalame-ye Bearer vared konid."
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+// ---------- AUTHENTICATION ----------
+var jwtSecret = builder.Configuration["JwtSettings:Secret"]!;
+var jwtIssuer = builder.Configuration["JwtSettings:Issuer"];
+var jwtAudience = builder.Configuration["JwtSettings:Audience"];
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSecret))
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
 // ---------- MIDDLEWARE (masir-e request) ----------
-app.UseExceptionHandler();         
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
@@ -31,7 +92,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

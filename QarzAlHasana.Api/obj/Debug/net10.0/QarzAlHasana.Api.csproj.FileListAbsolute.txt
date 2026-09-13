@@ -300,3 +300,9 @@
 /Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Extensions.Options.dll
 /Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Extensions.Primitives.dll
 /Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/runtimes/win/lib/net9.0/System.Diagnostics.EventLog.Messages.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/BCrypt-Net-Next.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Bcl.Cryptography.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Extensions.Configuration.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Extensions.Configuration.Binder.dll
+/Users/mohammadhossein/Documents/BestProject/QarzAlHasanaSystem/QarzAlHasana.Api/bin/Debug/net10.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll

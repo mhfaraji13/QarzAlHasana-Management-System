@@ -51,6 +51,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.12, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -63,7 +67,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.2.3, )"
+              "version": "[6.9.0, )"
             }
           },
           "imports": [
@@ -276,6 +280,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -291,6 +299,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[10.0.11, )"
+            },
+            "Microsoft.Extensions.Options.ConfigurationExtensions": {
+              "target": "Package",
+              "version": "[10.0.12, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.22.0, )"
             }
           },
           "imports": [

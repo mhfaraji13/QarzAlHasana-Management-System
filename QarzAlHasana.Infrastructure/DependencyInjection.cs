@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Infrastructure.Authentication;
 using QarzAlHasana.Infrastructure.Persistence;
 using QarzAlHasana.Infrastructure.Persistence.Repositories;
 
@@ -26,6 +27,10 @@ public static class DependencyInjection
         services.AddScoped<IMembershipPaymentRepository, MembershipPaymentRepository>();
         services.AddScoped<ISupportTicketRepository, SupportTicketRepository>();
         services.AddScoped<IFundSettingsRepository, FundSettingsRepository>();
+        services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }
