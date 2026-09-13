@@ -1,3 +1,5 @@
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetMemberPayments;
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetPendingPayments;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -22,6 +24,9 @@ public interface IMembershipPaymentRepository
     Task<decimal> GetFundTotalBalanceAsync(CancellationToken cancellationToken = default);
 
     Task<int> GetPendingCountAsync(CancellationToken cancellationToken = default);
+    Task<List<MemberPaymentDto>> GetPaymentsByMemberAsync(Guid memberId, CancellationToken cancellationToken);
+
+    Task<List<PendingPaymentDto>> GetPendingPaymentsAsync(CancellationToken cancellationToken);
 
     Task AddAsync(MembershipPayment payment, CancellationToken cancellationToken = default);
 

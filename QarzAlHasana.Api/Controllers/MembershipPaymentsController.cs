@@ -4,6 +4,8 @@ using QarzAlHasana.API.Contracts.MembershipPayments;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.ApproveMembershipPayment;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.CreateMembershipPayment;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.RejectMembershipPayment;
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetMemberPayments;
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetPendingPayments;
 
 namespace QarzAlHasana.Api.Controllers;
 
@@ -66,5 +68,28 @@ public sealed class MembershipPaymentsController : ControllerBase
         await _sender.Send(command, cancellationToken);
 
         return NoContent();
+    }
+    
+    [HttpGet("member/{memberId:guid}")]
+    [ProducesResponseType(typeof(List<MemberPaymentDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<MemberPaymentDto>>> GetByMember(
+        [FromRoute] Guid memberId,
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(
+            new GetMemberPaymentsQuery(memberId),
+            cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet("pending")]
+    [ProducesResponseType(typeof(List<PendingPaymentDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<PendingPaymentDto>>> GetPending(
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(new GetPendingPaymentsQuery(), cancellationToken);
+
+        return Ok(result);
     }
 }

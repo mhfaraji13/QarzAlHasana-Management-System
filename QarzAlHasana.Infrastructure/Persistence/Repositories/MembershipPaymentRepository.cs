@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetMemberPayments;
+using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetPendingPayments;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -71,6 +73,50 @@ public class MembershipPaymentRepository : IMembershipPaymentRepository
             .Where(p => p.MemberId == memberId
                         && p.Status == DepositStatus.Confirmed)
             .SumAsync(p => p.Amount, cancellationToken);
+    }
+    public async Task<List<MemberPaymentDto>> GetPaymentsByMemberAsync(
+        Guid memberId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.MembershipPayments
+            .AsNoTracking()
+            .Where(p => p.MemberId == memberId)
+            .OrderByDescending(p => p.PaymentDate)
+            .Select(p => new MemberPaymentDto
+            {
+                Id = p.Id,
+                Type = p.Type,
+                Amount = p.Amount,
+                PaymentDate = p.PaymentDate,
+                Status = p.Status,
+                ForMonth = p.ForMonth,
+                ForYear = p.ForYear,
+                ReceiptImageUrl = p.ReceiptImageUrl,
+                RejectionReason = p.RejectionReason
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<PendingPaymentDto>> GetPendingPaymentsAsync(
+        CancellationToken cancellationToken)
+    {
+        return await _context.MembershipPayments
+            .AsNoTracking()
+            .Where(p => p.Status == DepositStatus.Pending)
+            .OrderBy(p => p.PaymentDate)
+            .Select(p => new PendingPaymentDto
+            {
+                Id = p.Id,
+                MemberId = p.MemberId,
+                MemberFullName = p.Member.FirstName + " " + p.Member.LastName,
+                Type = p.Type,
+                Amount = p.Amount,
+                PaymentDate = p.PaymentDate,
+                ForMonth = p.ForMonth,
+                ForYear = p.ForYear,
+                ReceiptImageUrl = p.ReceiptImageUrl
+            })
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<decimal> GetFundTotalBalanceAsync(CancellationToken cancellationToken = default)
