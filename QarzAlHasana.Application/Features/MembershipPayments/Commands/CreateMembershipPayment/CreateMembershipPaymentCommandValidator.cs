@@ -8,8 +8,7 @@ public class CreateMembershipPaymentCommandValidator
 {
     public CreateMembershipPaymentCommandValidator()
     {
-        RuleFor(x => x.MemberId)
-            .NotEmpty();
+        
 
         RuleFor(x => x.Type)
             .IsInEnum();

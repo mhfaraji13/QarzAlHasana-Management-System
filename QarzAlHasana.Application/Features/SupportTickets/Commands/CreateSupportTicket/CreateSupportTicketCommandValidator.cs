@@ -7,7 +7,7 @@ public class CreateSupportTicketCommandValidator
 {
     public CreateSupportTicketCommandValidator()
     {
-        RuleFor(x => x.MemberId).NotEmpty();
+        
 
         RuleFor(x => x.Subject)
             .NotEmpty()

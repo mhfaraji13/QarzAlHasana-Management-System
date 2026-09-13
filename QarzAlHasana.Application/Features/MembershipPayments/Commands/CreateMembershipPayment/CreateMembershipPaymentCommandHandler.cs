@@ -13,14 +13,17 @@ public class CreateMembershipPaymentCommandHandler
     private readonly IMembershipPaymentRepository _membershipPaymentRepository;
     private readonly IFundSettingsRepository _fundSettingsRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUserService _currentUserService;
 
     public CreateMembershipPaymentCommandHandler(
         IMembershipPaymentRepository membershipPaymentRepository,
         IFundSettingsRepository fundSettingsRepository,
+        ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
         _membershipPaymentRepository = membershipPaymentRepository;
         _fundSettingsRepository = fundSettingsRepository;
+        _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
     }
 
@@ -28,12 +31,13 @@ public class CreateMembershipPaymentCommandHandler
         CreateMembershipPaymentCommand request,
         CancellationToken cancellationToken)
     {
+        var memberId = _currentUserService.UserId!.Value;
         decimal amount;
 
         if (request.Type == MembershipPaymentType.Registration)
         {
             var existing = await _membershipPaymentRepository
-                .GetRegistrationPaymentAsync(request.MemberId, cancellationToken);
+                .GetRegistrationPaymentAsync(memberId, cancellationToken);
 
             if (existing is not null)
             {
@@ -55,7 +59,7 @@ public class CreateMembershipPaymentCommandHandler
             }
 
             var alreadyPaid = await _membershipPaymentRepository.HasPaidForMonthAsync(
-                request.MemberId,
+                memberId,
                 request.ForYear.Value,
                 request.ForMonth.Value,
                 cancellationToken);
@@ -72,7 +76,7 @@ public class CreateMembershipPaymentCommandHandler
         }
 
         var payment = MembershipPayment.Create(
-            request.MemberId,
+            memberId,
             request.Type,
             amount,
             DateTime.UtcNow,

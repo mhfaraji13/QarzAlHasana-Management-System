@@ -21,17 +21,15 @@ public sealed class MembershipPaymentsController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("member/{memberId:guid}")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Create(
-        [FromRoute] Guid memberId,
         [FromBody] CreateMembershipPaymentRequest request,
         CancellationToken cancellationToken)
     {
         var command = new CreateMembershipPaymentCommand(
-            memberId,
             request.Type,
             request.ForMonth,
             request.ForYear,
@@ -72,15 +70,12 @@ public sealed class MembershipPaymentsController : ControllerBase
         return NoContent();
     }
     
-    [HttpGet("member/{memberId:guid}")]
+    [HttpGet("me")]
     [ProducesResponseType(typeof(List<MemberPaymentDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<MemberPaymentDto>>> GetByMember(
-        [FromRoute] Guid memberId,
+    public async Task<ActionResult<List<MemberPaymentDto>>> GetMine(
         CancellationToken cancellationToken)
     {
-        var result = await _sender.Send(
-            new GetMemberPaymentsQuery(memberId),
-            cancellationToken);
+        var result = await _sender.Send(new GetMemberPaymentsQuery(), cancellationToken);
 
         return Ok(result);
     }

@@ -13,6 +13,6 @@ public class AddSupportMessageCommandValidator
             .NotEmpty()
             .MaximumLength(2000);
 
-        RuleFor(x => x.SenderType).IsInEnum();
+        
     }
 }

@@ -10,6 +10,7 @@ using QarzAlHasana.Application.Features.SupportTickets.Queries.GetOpenTickets;
 using QarzAlHasana.Application.Features.SupportTickets.Queries.GetTicketById;
 
 namespace QarzAlHasana.Api.Controllers;
+
 [Authorize]
 [ApiController]
 [Route("api/support-tickets")]
@@ -22,16 +23,14 @@ public sealed class SupportTicketsController : ControllerBase
         _sender = sender;
     }
 
-    [HttpPost("member/{memberId:guid}")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create(
-        [FromRoute] Guid memberId,
         [FromBody] CreateSupportTicketRequest request,
         CancellationToken cancellationToken)
     {
         var command = new CreateSupportTicketCommand(
-            memberId,
             request.Subject,
             request.Content);
 
@@ -52,13 +51,13 @@ public sealed class SupportTicketsController : ControllerBase
     {
         var command = new AddSupportMessageCommand(
             id,
-            request.Content,
-            request.SenderType);
+            request.Content);
 
         await _sender.Send(command, cancellationToken);
 
         return NoContent();
     }
+
     [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/close")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -72,14 +71,14 @@ public sealed class SupportTicketsController : ControllerBase
 
         return NoContent();
     }
-    [HttpGet("member/{memberId:guid}")]
+
+    [HttpGet("me")]
     [ProducesResponseType(typeof(List<MemberTicketDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<MemberTicketDto>>> GetByMember(
-        [FromRoute] Guid memberId,
+    public async Task<ActionResult<List<MemberTicketDto>>> GetMine(
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(
-            new GetMemberTicketsQuery(memberId),
+            new GetMemberTicketsQuery(),
             cancellationToken);
 
         return Ok(result);
@@ -96,6 +95,7 @@ public sealed class SupportTicketsController : ControllerBase
 
         return Ok(result);
     }
+
     [Authorize(Roles = "Admin")]
     [HttpGet("open")]
     [ProducesResponseType(typeof(List<OpenTicketDto>), StatusCodes.Status200OK)]

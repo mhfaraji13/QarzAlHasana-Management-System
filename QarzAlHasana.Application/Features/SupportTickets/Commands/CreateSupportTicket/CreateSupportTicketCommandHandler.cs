@@ -10,21 +10,25 @@ public class CreateSupportTicketCommandHandler
 {
     private readonly ISupportTicketRepository _supportTicketRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUserService _currentUserService;
 
     public CreateSupportTicketCommandHandler(
         ISupportTicketRepository supportTicketRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICurrentUserService  currentUserService)
     {
         _supportTicketRepository = supportTicketRepository;
         _unitOfWork = unitOfWork;
+        _currentUserService = currentUserService;
     }
 
     public async Task<Guid> Handle(
         CreateSupportTicketCommand request,
         CancellationToken cancellationToken)
     {
+        var memberId = _currentUserService.UserId!.Value;
         var ticket = SupportTicket.Create(
-            request.MemberId,
+            memberId,
             request.Subject,
             request.Content);
 

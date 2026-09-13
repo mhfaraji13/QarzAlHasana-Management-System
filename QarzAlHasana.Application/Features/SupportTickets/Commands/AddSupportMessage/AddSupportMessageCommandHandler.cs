@@ -1,6 +1,8 @@
 using MediatR;
 using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Domain.Common;
+using QarzAlHasana.Domain.Enums;
 using QarzAlHasana.Domain.Exceptions;
 using QarzAlHasanaSystem.Application.Common.Exceptions;
 
@@ -11,13 +13,16 @@ public class AddSupportMessageCommandHandler
 {
     private readonly ISupportTicketRepository _supportTicketRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUserService _currentUserService;
 
     public AddSupportMessageCommandHandler(
         ISupportTicketRepository supportTicketRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICurrentUserService currentUserService)
     {
         _supportTicketRepository = supportTicketRepository;
         _unitOfWork = unitOfWork;
+        _currentUserService = currentUserService;
     }
 
     public async Task Handle(
@@ -32,8 +37,14 @@ public class AddSupportMessageCommandHandler
             throw new NotFoundException(
                 $"Ticket ba shenase {request.TicketId} peyda nashod.");
         }
+        
+        var senderType = _currentUserService.Role == Roles.Admin
+            ? SenderType.Admin
+            : SenderType.Member;
 
-        ticket.AddMessage(request.Content, request.SenderType);
+        ticket.AddMessage(request.Content, senderType);
+
+        
 
         _supportTicketRepository.Update(ticket);
 

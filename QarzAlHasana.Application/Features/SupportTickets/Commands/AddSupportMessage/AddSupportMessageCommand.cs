@@ -5,5 +5,4 @@ namespace QarzAlHasana.Application.Features.SupportTickets.Commands.AddSupportMe
 
 public record AddSupportMessageCommand(
     Guid TicketId,
-    string Content,
-    SenderType SenderType) : IRequest;
+    string Content) : IRequest;
