@@ -6,10 +6,6 @@ public class CreateLoanRequestCommandValidator : AbstractValidator<CreateLoanReq
 {
     public CreateLoanRequestCommandValidator()
     {
-        RuleFor(x => x.MemberId)
-            .NotEmpty()
-            .WithMessage("Shenase-ye ozv elzami ast.");
-
         RuleFor(x => x.Amount)
             .GreaterThan(0)
             .WithMessage("Mablagh bayad bozorgtar az sefr bashad.");

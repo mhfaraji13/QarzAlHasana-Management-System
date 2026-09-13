@@ -13,15 +13,18 @@ public class CreateLoanRequestCommandHandler
 {
     private readonly IMemberRepository _memberRepository;
     private readonly ILoanRequestRepository _loanRequestRepository;
+    private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateLoanRequestCommandHandler(
         IMemberRepository memberRepository,
         ILoanRequestRepository loanRequestRepository,
+        ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
         _memberRepository = memberRepository;
         _loanRequestRepository = loanRequestRepository;
+        _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
     }
 
@@ -29,10 +32,12 @@ public class CreateLoanRequestCommandHandler
         CreateLoanRequestCommand request,
         CancellationToken cancellationToken)
     {
-        var member = await _memberRepository.GetByIdAsync(request.MemberId, cancellationToken);
+        var memberId = _currentUserService.UserId!.Value;
+
+        var member = await _memberRepository.GetByIdAsync(memberId, cancellationToken);
 
         if (member is null)
-            throw new NotFoundException("Ozv", request.MemberId);
+            throw new NotFoundException("Ozv", memberId);
 
         if (!member.IsActive)
             throw new BusinessRuleException(
@@ -44,7 +49,7 @@ public class CreateLoanRequestCommandHandler
                 "REGISTRATION_FEE_NOT_PAID",
                 "Ta zamani ke haghe-e sabt-e nam pardakht nashode, emkan-e sabt-e darkhast-e vam vojood nadarad.");
 
-        var hasActiveLoan = await _loanRequestRepository.HasActiveLoanAsync(request.MemberId, cancellationToken);
+        var hasActiveLoan = await _loanRequestRepository.HasActiveLoanAsync(memberId, cancellationToken);
 
         if (hasActiveLoan)
             throw new BusinessRuleException(
@@ -53,7 +58,7 @@ public class CreateLoanRequestCommandHandler
 
         var loanRequest = new LoanRequest
         {
-            MemberId = request.MemberId,
+            MemberId = memberId,
             Amount = request.Amount,
             InstallmentCount = request.InstallmentCount,
             Description = request.Description,

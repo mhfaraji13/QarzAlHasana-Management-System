@@ -12,6 +12,7 @@ using QarzAlHasana.Application.Features.LoanRequests.Queries.GetMemberLoanReques
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetPendingLoanRequests;
 
 namespace QarzAlHasana.Api.Controllers;
+
 [Authorize]
 [ApiController]
 [Route("api/loan-requests")]
@@ -36,18 +37,18 @@ public sealed class LoanRequestsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id }, new { id });
     }
 
-    [HttpGet("member/{memberId:guid}")]
+    [HttpGet("me")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetByMember(
-        [FromRoute] Guid memberId,
+    public async Task<IActionResult> GetMine(
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(
-            new GetMemberLoanRequestsQuery(memberId),
+            new GetMemberLoanRequestsQuery(),
             cancellationToken);
 
         return Ok(result);
     }
+
     [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/approve")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -60,6 +61,7 @@ public sealed class LoanRequestsController : ControllerBase
         await _sender.Send(new ApproveLoanRequestCommand(id), cancellationToken);
         return NoContent();
     }
+
     [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/reject")]
     public async Task<IActionResult> Reject(
@@ -73,6 +75,7 @@ public sealed class LoanRequestsController : ControllerBase
 
         return NoContent();
     }
+
     [HttpPost("{id:guid}/installments/{installmentId:guid}/pay")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,7 +96,7 @@ public sealed class LoanRequestsController : ControllerBase
 
         return NoContent();
     }
-    
+
     [HttpGet("{id:guid}/installments")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -107,7 +110,7 @@ public sealed class LoanRequestsController : ControllerBase
 
         return Ok(result);
     }
-    
+
     /// <summary>Liste darkhast-haye vam-e dar entezar-e barresi. Vizhe-ye Admin.</summary>
     [Authorize(Roles = "Admin")]
     [HttpGet("pending")]
@@ -119,7 +122,8 @@ public sealed class LoanRequestsController : ControllerBase
 
         return Ok(result);
     }
-    /// <summary>Jozeiyât-e yek darkhâst-e vâm hamrâh bâ ozv va zâmen-hâ.</summary>
+
+    /// <summary>Jozeiyat-e yek darkhast-e vam hamrah ba ozv va zamen-ha.</summary>
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(LoanRequestDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
