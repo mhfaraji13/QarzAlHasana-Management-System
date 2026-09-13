@@ -1,10 +1,13 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.Application.Features.Members.Commands.ActivateMember;
 using QarzAlHasana.Application.Features.Members.Queries.GetInactiveMembers;
 
 namespace QarzAlHasana.Api.Controllers;
 
+
+[Authorize(Roles = "Admin")]
 [ApiController]
 [Route("api/members")]
 public sealed class MembersController : ControllerBase

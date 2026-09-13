@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.Auth;
 using QarzAlHasana.Application.Features.Auth.Commands.LoginAdmin;
@@ -18,7 +19,9 @@ public sealed class AuthController : ControllerBase
     {
         _sender = sender;
     }
-
+    
+    
+    [AllowAnonymous]
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,7 +41,7 @@ public sealed class AuthController : ControllerBase
 
         return Ok(id);
     }
-
+    [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,7 +58,7 @@ public sealed class AuthController : ControllerBase
 
         return Ok(result);
     }
-
+    [AllowAnonymous]
     [HttpPost("admin/login")]
     [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.SupportTickets;
 using QarzAlHasana.Application.Features.SupportTickets.Commands.AddSupportMessage;
@@ -9,7 +10,7 @@ using QarzAlHasana.Application.Features.SupportTickets.Queries.GetOpenTickets;
 using QarzAlHasana.Application.Features.SupportTickets.Queries.GetTicketById;
 
 namespace QarzAlHasana.Api.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/support-tickets")]
 public sealed class SupportTicketsController : ControllerBase
@@ -58,7 +59,7 @@ public sealed class SupportTicketsController : ControllerBase
 
         return NoContent();
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/close")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -95,6 +96,7 @@ public sealed class SupportTicketsController : ControllerBase
 
         return Ok(result);
     }
+    [Authorize(Roles = "Admin")]
     [HttpGet("open")]
     [ProducesResponseType(typeof(List<OpenTicketDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<OpenTicketDto>>> GetOpen(

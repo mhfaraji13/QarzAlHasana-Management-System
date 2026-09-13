@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.LoanRequests;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.ApproveLoanRequest;
@@ -11,7 +12,7 @@ using QarzAlHasana.Application.Features.LoanRequests.Queries.GetMemberLoanReques
 using QarzAlHasana.Application.Features.LoanRequests.Queries.GetPendingLoanRequests;
 
 namespace QarzAlHasana.Api.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/loan-requests")]
 public sealed class LoanRequestsController : ControllerBase
@@ -47,7 +48,7 @@ public sealed class LoanRequestsController : ControllerBase
 
         return Ok(result);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/approve")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -59,7 +60,7 @@ public sealed class LoanRequestsController : ControllerBase
         await _sender.Send(new ApproveLoanRequestCommand(id), cancellationToken);
         return NoContent();
     }
-    
+    [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/reject")]
     public async Task<IActionResult> Reject(
         Guid id,
@@ -108,6 +109,7 @@ public sealed class LoanRequestsController : ControllerBase
     }
     
     /// <summary>Liste darkhast-haye vam-e dar entezar-e barresi. Vizhe-ye Admin.</summary>
+    [Authorize(Roles = "Admin")]
     [HttpGet("pending")]
     [ProducesResponseType(typeof(List<PendingLoanRequestDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<PendingLoanRequestDto>>> GetPending(

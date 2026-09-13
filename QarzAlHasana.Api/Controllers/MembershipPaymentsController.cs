@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.MembershipPayments;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.ApproveMembershipPayment;
@@ -8,7 +9,7 @@ using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetMemberPaym
 using QarzAlHasana.Application.Features.MembershipPayments.Queries.GetPendingPayments;
 
 namespace QarzAlHasana.Api.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/membership-payments")]
 public sealed class MembershipPaymentsController : ControllerBase
@@ -40,6 +41,7 @@ public sealed class MembershipPaymentsController : ControllerBase
 
         return Ok(id);
     }
+    [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/approve")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +55,7 @@ public sealed class MembershipPaymentsController : ControllerBase
         return NoContent();
     }
     
-    
+    [Authorize(Roles = "Admin")]
     [HttpPost("{id:guid}/reject")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +84,7 @@ public sealed class MembershipPaymentsController : ControllerBase
 
         return Ok(result);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpGet("pending")]
     [ProducesResponseType(typeof(List<PendingPaymentDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<List<PendingPaymentDto>>> GetPending(
