@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.MembershipPayments;
+using QarzAlHasana.Application.Features.MembershipPayments.Commands.ApproveMembershipPayment;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.CreateMembershipPayment;
 
 namespace QarzAlHasana.Api.Controllers;
@@ -35,5 +36,17 @@ public sealed class MembershipPaymentsController : ControllerBase
         var id = await _sender.Send(command, cancellationToken);
 
         return Ok(id);
+    }
+    [HttpPost("{id:guid}/approve")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Approve(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        await _sender.Send(new ApproveMembershipPaymentCommand(id), cancellationToken);
+
+        return NoContent();
     }
 }

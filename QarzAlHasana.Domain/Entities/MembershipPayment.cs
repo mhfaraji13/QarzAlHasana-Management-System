@@ -62,4 +62,30 @@ public class MembershipPayment : BaseEntity
             Status = DepositStatus.Pending
         };
     }
+    
+    public void Confirm()
+    {
+        if (Status != DepositStatus.Pending)
+        {
+            throw new BusinessRuleException(
+                "PAYMENT_NOT_PENDING",
+                $"Faghat pardakht-e dar entezar ghabel-e taeed ast. Vaziat-e feli: {Status}");
+        }
+
+        Status = DepositStatus.Confirmed;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Reject()
+    {
+        if (Status != DepositStatus.Pending)
+        {
+            throw new BusinessRuleException(
+                "PAYMENT_NOT_PENDING",
+                $"Faghat pardakht-e dar entezar ghabel-e radd ast. Vaziat-e feli: {Status}");
+        }
+
+        Status = DepositStatus.Rejected;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

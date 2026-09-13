@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QarzAlHasana.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d6f1dbfd938898276c17b544a406b88e98d5446")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4733b57d5ed4af985c15a4d26346817c114324c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("QarzAlHasana.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QarzAlHasana.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
