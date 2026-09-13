@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
 using QarzAlHasana.Domain.Entities;
-using QarzAlHasana.Domain.Enums;
+using QarzAlHasanaSystem.Application.Common.Exceptions;
 
 namespace QarzAlHasana.Infrastructure.Persistence.Repositories;
 
-public class FundSettingsRepository: IFundSettingsRepository
+public class FundSettingsRepository : IFundSettingsRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -26,7 +26,13 @@ public class FundSettingsRepository: IFundSettingsRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
-        return settings?.RegistrationFee ?? 0m;
+        if (settings is null)
+        {
+            throw new NotFoundException(
+                "Tanzimat-e sandogh hanooz sabt nashode ast.");
+        }
+
+        return settings.RegistrationFee;
     }
 
     public async Task<decimal> GetMonthlyMembershipFeeAsync(CancellationToken cancellationToken = default)
@@ -35,7 +41,13 @@ public class FundSettingsRepository: IFundSettingsRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
-        return settings?.MonthlyMembershipFee ?? 0m;
+        if (settings is null)
+        {
+            throw new NotFoundException(
+                "Tanzimat-e sandogh hanooz sabt nashode ast.");
+        }
+
+        return settings.MonthlyMembershipFee;
     }
 
     public async Task AddAsync(FundSettings settings, CancellationToken cancellationToken = default)

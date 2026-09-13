@@ -91,6 +91,7 @@ using (var scope = app.Services.CreateScope())
     var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
 
     await DatabaseSeeder.SeedAdminAsync(context, passwordHasher, configuration);
+    await DatabaseSeeder.SeedFundSettingsAsync(context, configuration);
 }
 
 // ---------- MIDDLEWARE (masir-e request) ----------

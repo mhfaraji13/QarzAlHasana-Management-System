@@ -40,4 +40,32 @@ public static class DatabaseSeeder
 
         await context.SaveChangesAsync(cancellationToken);
     }
+    public static async Task SeedFundSettingsAsync(
+        ApplicationDbContext context,
+        IConfiguration configuration,
+        CancellationToken cancellationToken = default)
+    {
+        var exists = await context.FundSettings.AnyAsync(cancellationToken);
+
+        if (exists)
+        {
+            return;
+        }
+
+        var registrationFee = configuration.GetValue<decimal?>("SeedFundSettings:RegistrationFee");
+        var monthlyFee = configuration.GetValue<decimal?>("SeedFundSettings:MonthlyMembershipFee");
+
+        if (registrationFee is null || monthlyFee is null)
+        {
+            return;
+        }
+
+        context.FundSettings.Add(new FundSettings
+        {
+            RegistrationFee = registrationFee.Value,
+            MonthlyMembershipFee = monthlyFee.Value
+        });
+
+        await context.SaveChangesAsync(cancellationToken);
+    }
 }
