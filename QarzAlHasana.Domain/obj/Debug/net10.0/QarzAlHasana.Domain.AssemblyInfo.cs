@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QarzAlHasana.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42beebe1047180aada6765f1228d3b26f4da565d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+515c0d2c7c209a59ba22f947e1874e0993ea1e14")]
 [assembly: System.Reflection.AssemblyProductAttribute("QarzAlHasana.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QarzAlHasana.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

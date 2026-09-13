@@ -1,3 +1,6 @@
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetMemberTickets;
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetOpenTickets;
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetTicketById;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -18,6 +21,10 @@ public interface ISupportTicketRepository
     Task<int> GetOpenTicketCountAsync(CancellationToken cancellationToken = default);
 
     Task<bool> BelongsToMemberAsync(Guid ticketId, Guid memberId, CancellationToken cancellationToken = default);
+    Task<List<MemberTicketDto>> GetTicketsByMemberAsync(Guid memberId, CancellationToken cancellationToken);
+
+    Task<SupportTicketDetailDto?> GetTicketDetailAsync(Guid ticketId, CancellationToken cancellationToken);
+    Task<List<OpenTicketDto>> GetOpenTicketsAsync(CancellationToken cancellationToken);
 
     Task AddAsync(SupportTicket ticket, CancellationToken cancellationToken = default);
 

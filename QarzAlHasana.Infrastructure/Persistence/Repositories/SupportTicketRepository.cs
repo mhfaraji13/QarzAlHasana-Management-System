@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetMemberTickets;
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetOpenTickets;
+using QarzAlHasana.Application.Features.SupportTickets.Queries.GetTicketById;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -56,6 +59,53 @@ public class SupportTicketRepository : ISupportTicketRepository
             .ThenByDescending(t => t.CreatedAt)
             .ToListAsync(cancellationToken);
     }
+    public async Task<List<MemberTicketDto>> GetTicketsByMemberAsync(
+        Guid memberId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.SupportTickets
+            .AsNoTracking()
+            .Where(t => t.MemberId == memberId)
+            .OrderByDescending(t => t.CreatedAt)
+            .Select(t => new MemberTicketDto
+            {
+                Id = t.Id,
+                Subject = t.Subject,
+                Status = t.Status,
+                CreatedAt = t.CreatedAt,
+                MessageCount = t.Messages.Count
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<SupportTicketDetailDto?> GetTicketDetailAsync(
+        Guid ticketId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.SupportTickets
+            .AsNoTracking()
+            .Where(t => t.Id == ticketId)
+            .Select(t => new SupportTicketDetailDto
+            {
+                Id = t.Id,
+                Subject = t.Subject,
+                Status = t.Status,
+                CreatedAt = t.CreatedAt,
+                MemberId = t.MemberId,
+                MemberFullName = t.Member.FirstName + " " + t.Member.LastName,
+                Messages = t.Messages
+                    .OrderBy(m => m.CreatedAt)
+                    .Select(m => new SupportMessageDto
+                    {
+                        Id = m.Id,
+                        Content = m.Content,
+                        SenderType = m.SenderType,
+                        CreatedAt = m.CreatedAt
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 
     public async Task<int> GetOpenTicketCountAsync(CancellationToken cancellationToken = default)
     {
@@ -72,6 +122,26 @@ public class SupportTicketRepository : ISupportTicketRepository
     public async Task AddAsync(SupportTicket ticket, CancellationToken cancellationToken = default)
     {
         await _context.SupportTickets.AddAsync(ticket, cancellationToken);
+    }
+    public async Task<List<OpenTicketDto>> GetOpenTicketsAsync(
+        CancellationToken cancellationToken)
+    {
+        return await _context.SupportTickets
+            .AsNoTracking()
+            .Where(t => t.Status != TicketStatus.Closed)
+            .Select(t => new OpenTicketDto
+            {
+                Id = t.Id,
+                Subject = t.Subject,
+                Status = t.Status,
+                CreatedAt = t.CreatedAt,
+                MemberId = t.MemberId,
+                MemberFullName = t.Member.FirstName + " " + t.Member.LastName,
+                MessageCount = t.Messages.Count,
+                LastMessageAt = t.Messages.Max(m => m.CreatedAt)
+            })
+            .OrderBy(t => t.LastMessageAt)
+            .ToListAsync(cancellationToken);
     }
 
     public void Update(SupportTicket ticket)
