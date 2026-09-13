@@ -1,5 +1,7 @@
 using MediatR;
+using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Domain.Common;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 using QarzAlHasanaSystem.Application.Common.Exceptions;
@@ -10,10 +12,14 @@ public sealed class GetLoanInstallmentsQueryHandler
     : IRequestHandler<GetLoanInstallmentsQuery, LoanInstallmentsDto>
 {
     private readonly ILoanRequestRepository _loanRequestRepository;
+    private readonly ICurrentUserService _currentUserService;
 
-    public GetLoanInstallmentsQueryHandler(ILoanRequestRepository loanRequestRepository)
+    public GetLoanInstallmentsQueryHandler(
+        ILoanRequestRepository loanRequestRepository,
+        ICurrentUserService currentUserService)
     {
         _loanRequestRepository = loanRequestRepository;
+        _currentUserService = currentUserService;
     }
 
     public async Task<LoanInstallmentsDto> Handle(
@@ -26,6 +32,12 @@ public sealed class GetLoanInstallmentsQueryHandler
         if (loanRequest is null)
         {
             throw new NotFoundException(nameof(LoanRequest), request.LoanRequestId);
+        }
+
+        if (_currentUserService.Role != Roles.Admin &&
+            loanRequest.MemberId != _currentUserService.UserId)
+        {
+            throw new ForbiddenException("Shoma be in darkhast-e vam dastresi nadarid.");
         }
 
         var asOf = DateTime.UtcNow;

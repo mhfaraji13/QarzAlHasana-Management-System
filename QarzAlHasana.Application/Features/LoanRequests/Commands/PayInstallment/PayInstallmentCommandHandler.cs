@@ -10,13 +10,16 @@ public sealed class PayInstallmentCommandHandler
     : IRequestHandler<PayInstallmentCommand, Unit>
 {
     private readonly ILoanRequestRepository _loanRequestRepository;
+    private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
 
     public PayInstallmentCommandHandler(
         ILoanRequestRepository loanRequestRepository,
+        ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
         _loanRequestRepository = loanRequestRepository;
+        _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
     }
 
@@ -30,6 +33,12 @@ public sealed class PayInstallmentCommandHandler
         if (loanRequest is null)
         {
             throw new NotFoundException(nameof(LoanRequest), request.LoanRequestId);
+        }
+
+        if (loanRequest.MemberId != _currentUserService.UserId)
+        {
+            throw new ForbiddenException(
+                "Shoma faghat mitavanid aghsat-e vam-e khodetan ra pardakht konid.");
         }
 
         loanRequest.PayInstallment(
