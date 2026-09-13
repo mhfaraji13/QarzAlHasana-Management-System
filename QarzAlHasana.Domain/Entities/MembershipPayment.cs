@@ -12,6 +12,7 @@ public class MembershipPayment : BaseEntity
     public string? ReceiptImageUrl { get; set; }
 
     public DepositStatus Status { get; set; } = DepositStatus.Pending;
+    public string? RejectionReason { get; set; }
     
     
     public int? ForMonth { get; set; }
@@ -76,7 +77,7 @@ public class MembershipPayment : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Reject()
+    public void Reject(string rejectionReason)
     {
         if (Status != DepositStatus.Pending)
         {
@@ -85,7 +86,15 @@ public class MembershipPayment : BaseEntity
                 $"Faghat pardakht-e dar entezar ghabel-e radd ast. Vaziat-e feli: {Status}");
         }
 
+        if (string.IsNullOrWhiteSpace(rejectionReason))
+        {
+            throw new BusinessRuleException(
+                "REJECTION_REASON_REQUIRED",
+                "Dalil-e radd elzami ast.");
+        }
+
         Status = DepositStatus.Rejected;
+        RejectionReason = rejectionReason.Trim();
         UpdatedAt = DateTime.UtcNow;
     }
 }

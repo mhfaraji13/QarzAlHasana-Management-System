@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QarzAlHasana.API.Contracts.MembershipPayments;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.ApproveMembershipPayment;
 using QarzAlHasana.Application.Features.MembershipPayments.Commands.CreateMembershipPayment;
+using QarzAlHasana.Application.Features.MembershipPayments.Commands.RejectMembershipPayment;
 
 namespace QarzAlHasana.Api.Controllers;
 
@@ -46,6 +47,23 @@ public sealed class MembershipPaymentsController : ControllerBase
         CancellationToken cancellationToken)
     {
         await _sender.Send(new ApproveMembershipPaymentCommand(id), cancellationToken);
+
+        return NoContent();
+    }
+    
+    
+    [HttpPost("{id:guid}/reject")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Reject(
+        [FromRoute] Guid id,
+        [FromBody] RejectMembershipPaymentRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new RejectMembershipPaymentCommand(id, request.RejectionReason);
+
+        await _sender.Send(command, cancellationToken);
 
         return NoContent();
     }
