@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QarzAlHasana.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73ef82231a3a8abd2f974498cc0c721b9689a0f9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35fa2e43b6759e677edfeb4f46608df174043e31")]
 [assembly: System.Reflection.AssemblyProductAttribute("QarzAlHasana.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QarzAlHasana.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

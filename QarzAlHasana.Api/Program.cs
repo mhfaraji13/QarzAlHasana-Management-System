@@ -8,6 +8,7 @@ using QarzAlHasana.Api.Services;
 using QarzAlHasana.Infrastructure;
 using QarzAlHasana.Application;
 using QarzAlHasana.Application.Common.Interfaces;
+using QarzAlHasana.Infrastructure.Persistence;
 using QarzAlHasanaSystem.Application;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +82,14 @@ builder.Services
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+
+    await DatabaseSeeder.SeedAdminAsync(context, passwordHasher, configuration);
+}
 
 // ---------- MIDDLEWARE (masir-e request) ----------
 app.UseExceptionHandler();
@@ -90,6 +99,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 
