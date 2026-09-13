@@ -3,7 +3,6 @@ using QarzAlHasana.Application.Common.Interfaces;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
 using QarzAlHasana.Domain.Common;
 using QarzAlHasana.Domain.Enums;
-using QarzAlHasana.Domain.Exceptions;
 using QarzAlHasanaSystem.Application.Common.Exceptions;
 
 namespace QarzAlHasana.Application.Features.SupportTickets.Commands.AddSupportMessage;
@@ -37,14 +36,19 @@ public class AddSupportMessageCommandHandler
             throw new NotFoundException(
                 $"Ticket ba shenase {request.TicketId} peyda nashod.");
         }
-        
-        var senderType = _currentUserService.Role == Roles.Admin
+
+        var isAdmin = _currentUserService.Role == Roles.Admin;
+
+        if (!isAdmin && ticket.MemberId != _currentUserService.UserId)
+        {
+            throw new ForbiddenException("Shoma be in ticket dastresi nadarid.");
+        }
+
+        var senderType = isAdmin
             ? SenderType.Admin
             : SenderType.Member;
 
         ticket.AddMessage(request.Content, senderType);
-
-        
 
         _supportTicketRepository.Update(ticket);
 
