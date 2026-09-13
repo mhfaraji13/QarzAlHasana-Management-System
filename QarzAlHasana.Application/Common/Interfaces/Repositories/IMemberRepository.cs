@@ -1,3 +1,4 @@
+using QarzAlHasana.Application.Features.Members.Queries.GetInactiveMembers;
 using QarzAlHasana.Domain.Entities;
 
 namespace QarzAlHasana.Application.Common.Interfaces.Repositories;
@@ -15,6 +16,7 @@ public interface IMemberRepository
     Task<IReadOnlyList<Member>> GetAllAsync(CancellationToken cancellationToken = default);
 
     Task<bool> ExistsByNationalCodeAsync(string nationalCode, CancellationToken cancellationToken = default);
+    Task<List<InactiveMemberDto>> GetInactiveMembersAsync(CancellationToken cancellationToken);
 
     Task AddAsync(Member member, CancellationToken cancellationToken = default);
 

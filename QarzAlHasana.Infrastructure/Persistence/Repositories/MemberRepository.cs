@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Application.Features.Members.Queries.GetInactiveMembers;
 using QarzAlHasana.Domain.Entities;
 
 namespace QarzAlHasana.Infrastructure.Persistence.Repositories;
@@ -55,6 +56,23 @@ public class MemberRepository : IMemberRepository
     public async Task AddAsync(Member member, CancellationToken cancellationToken = default)
     {
         await _context.Members.AddAsync(member, cancellationToken);
+    }
+    public async Task<List<InactiveMemberDto>> GetInactiveMembersAsync(
+        CancellationToken cancellationToken)
+    {
+        return await _context.Members
+            .AsNoTracking()
+            .Where(m => !m.IsActive)
+            .OrderBy(m => m.CreatedAt)
+            .Select(m => new InactiveMemberDto
+            {
+                Id = m.Id,
+                FullName = m.FirstName + " " + m.LastName,
+                NationalCode = m.NationalCode,
+                PhoneNumber = m.PhoneNumber,
+                CreatedAt = m.CreatedAt
+            })
+            .ToListAsync(cancellationToken);
     }
 
     public void Update(Member member)
