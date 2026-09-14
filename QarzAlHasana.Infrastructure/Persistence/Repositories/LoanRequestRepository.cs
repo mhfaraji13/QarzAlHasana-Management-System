@@ -86,6 +86,14 @@ public class LoanRequestRepository : ILoanRequestRepository
             })
             .ToListAsync(cancellationToken);
     }
+    public async Task<LoanRequest?> GetByIdWithGuarantorsAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        return await _context.LoanRequests
+            .Include(lr => lr.Guarantors)
+            .FirstOrDefaultAsync(lr => lr.Id == id, cancellationToken);
+    }
 
     public async Task<LoanRequestDetailDto?> GetDetailByIdAsync(
         Guid id,

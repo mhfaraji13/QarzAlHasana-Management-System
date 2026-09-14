@@ -1,3 +1,4 @@
+using QarzAlHasana.Application.Features.Guarantors.Queries.GetPendingGuaranteeRequests;
 using QarzAlHasana.Domain.Entities;
 
 namespace QarzAlHasana.Application.Common.Interfaces.Repositories;
@@ -17,6 +18,7 @@ public interface IGuarantorRepository
     Task<decimal> GetTotalCommittedAmountAsync(Guid guarantorMemberId, CancellationToken cancellationToken = default);
 
     Task<bool> IsAlreadyGuarantorAsync(Guid loanRequestId, Guid guarantorMemberId, CancellationToken cancellationToken = default);
+    Task<List<PendingGuaranteeRequestDto>> GetPendingForMemberAsync(Guid memberId, CancellationToken cancellationToken);
 
     Task AddAsync(Guarantor guarantor, CancellationToken cancellationToken = default);
 

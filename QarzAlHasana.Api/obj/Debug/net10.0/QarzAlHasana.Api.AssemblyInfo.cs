@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+244216b3d7598741cb54ce95418cdbceef523370")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5213459089fe8beb7e9a6bf6217d305da1632260")]
 [assembly: System.Reflection.AssemblyProductAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QarzAlHasana.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

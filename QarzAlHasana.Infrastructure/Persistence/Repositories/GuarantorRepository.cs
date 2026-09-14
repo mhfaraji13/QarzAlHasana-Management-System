@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QarzAlHasana.Application.Common.Interfaces.Repositories;
+using QarzAlHasana.Application.Features.Guarantors.Queries.GetPendingGuaranteeRequests;
 using QarzAlHasana.Domain.Entities;
 using QarzAlHasana.Domain.Enums;
 
@@ -70,6 +71,30 @@ public class GuarantorRepository : IGuarantorRepository
                         && (g.LoanRequest.Status == LoanStatus.Pending
                             || g.LoanRequest.Status == LoanStatus.Approved))
             .SumAsync(g => g.CommittedAmount, cancellationToken);
+    }
+    
+    public async Task<List<PendingGuaranteeRequestDto>> GetPendingForMemberAsync(
+        Guid memberId,
+        CancellationToken cancellationToken)
+    {
+        return await _context.Guarantors
+            .AsNoTracking()
+            .Where(g => g.GuarantorMemberId == memberId
+                        && !g.IsConfirmed
+                        && g.LoanRequest.Status == LoanStatus.Pending)
+            .OrderBy(g => g.LoanRequest.RequestDate)
+            .Select(g => new PendingGuaranteeRequestDto
+            {
+                GuarantorId = g.Id,
+                LoanRequestId = g.LoanRequestId,
+                BorrowerFullName = g.LoanRequest.Member.FirstName + " " + g.LoanRequest.Member.LastName,
+                LoanAmount = g.LoanRequest.Amount,
+                InstallmentCount = g.LoanRequest.InstallmentCount,
+                Description = g.LoanRequest.Description,
+                CommittedAmount = g.CommittedAmount,
+                RequestDate = g.LoanRequest.RequestDate
+            })
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<bool> IsAlreadyGuarantorAsync(Guid loanRequestId, Guid guarantorMemberId, CancellationToken cancellationToken = default)

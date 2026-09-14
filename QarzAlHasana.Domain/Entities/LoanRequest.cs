@@ -29,7 +29,91 @@ public class LoanRequest : BaseEntity
     public ICollection<Guarantor> Guarantors { get; set; } = new List<Guarantor>();
 
     /// <summary>
-    /// Taeed-e darkhast-e vam. Faghat vam-e dar entezar (Pending) ghabel-e taeed ast.
+    /// Ezafe kardan-e zamen. Faghat rooye vam-e dar entezar mojaz ast.
+    /// </summary>
+    public void AddGuarantor(Guid guarantorMemberId, decimal committedAmount)
+    {
+        if (Status != LoanStatus.Pending)
+        {
+            throw new BusinessRuleException(
+                "LOAN_NOT_PENDING",
+                $"Faghat be vam-e dar entezar mitavan zamen ezafe kard. Vaziat-e feli: {Status}");
+        }
+
+        if (guarantorMemberId == MemberId)
+        {
+            throw new BusinessRuleException(
+                "SELF_GUARANTEE_NOT_ALLOWED",
+                "Ozv nemitavanad zamen-e vam-e khodash bashad.");
+        }
+
+        if (committedAmount <= 0)
+        {
+            throw new BusinessRuleException(
+                "INVALID_COMMITTED_AMOUNT",
+                $"Mablagh-e zemanat bayad bozorgtar az sefr bashad. Meghdar-e feli: {committedAmount}");
+        }
+
+        if (Guarantors.Any(g => g.GuarantorMemberId == guarantorMemberId))
+        {
+            throw new BusinessRuleException(
+                "GUARANTOR_ALREADY_ADDED",
+                "In ozv ghablan be onvan-e zamen sabt shode ast.");
+        }
+
+        var totalCommitted = Guarantors.Sum(g => g.CommittedAmount) + committedAmount;
+
+        if (totalCommitted > Amount)
+        {
+            throw new BusinessRuleException(
+                "COMMITTED_AMOUNT_EXCEEDS_LOAN",
+                $"Jam-e mablagh-e zemanat-ha ({totalCommitted}) nemitavanad az mablagh-e vam ({Amount}) bishtar bashad.");
+        }
+
+        Guarantors.Add(new Guarantor
+        {
+            LoanRequestId = Id,
+            GuarantorMemberId = guarantorMemberId,
+            CommittedAmount = committedAmount,
+            IsConfirmed = false
+        });
+    }
+
+    /// <summary>
+    /// Taeed-e zemanat tavassot-e khod-e zamen. Hich kas nemitavanad be ja-ye digari taeed konad.
+    /// </summary>
+    public void ConfirmGuarantor(Guid guarantorId, Guid confirmingMemberId, DateTime confirmedDate)
+    {
+        if (Status != LoanStatus.Pending)
+        {
+            throw new BusinessRuleException(
+                "LOAN_NOT_PENDING",
+                $"Faghat zemanat-e vam-e dar entezar ghabel-e taeed ast. Vaziat-e feli: {Status}");
+        }
+
+        var guarantor = Guarantors.FirstOrDefault(g => g.Id == guarantorId);
+
+        if (guarantor is null)
+        {
+            throw new BusinessRuleException(
+                "GUARANTOR_NOT_FOUND",
+                "Zamen-i ba in shenase baraye in vam vojood nadarad.");
+        }
+
+        if (guarantor.GuarantorMemberId != confirmingMemberId)
+        {
+            throw new BusinessRuleException(
+                "NOT_YOUR_GUARANTEE",
+                "Faghat khod-e zamen mitavanad zemanat ra taeed konad.");
+        }
+
+        guarantor.Confirm(confirmedDate);
+
+        UpdatedAt = confirmedDate;
+    }
+
+    /// <summary>
+    /// Taeed-e darkhast-e vam. Faghat vam-e dar entezar (Pending) ba zamen-e taeed-shode ghabel-e taeed ast.
     /// Ba taeed shodan, jadval-e aghsat be soorat-e khodkar sakhte mishavad.
     /// </summary>
     public void Approve()
@@ -39,6 +123,20 @@ public class LoanRequest : BaseEntity
             throw new BusinessRuleException(
                 "LOAN_NOT_PENDING",
                 $"Faghat darkhast-e vam-i ke dar vaziat-e Pending ast ghabel-e taeed mibashad. Vaziat-e feli: {Status}");
+        }
+
+        if (!Guarantors.Any())
+        {
+            throw new BusinessRuleException(
+                "GUARANTOR_REQUIRED",
+                "Vam bedoon-e zamen ghabel-e taeed nist.");
+        }
+
+        if (Guarantors.Any(g => !g.IsConfirmed))
+        {
+            throw new BusinessRuleException(
+                "GUARANTEE_NOT_CONFIRMED",
+                "Hame-ye zamen-ha bayad zemanat-e khod ra taeed karde bashand.");
         }
 
         var approvalDate = DateTime.UtcNow;
@@ -88,7 +186,7 @@ public class LoanRequest : BaseEntity
             });
         }
     }
-    
+
     public void Reject(string rejectionReason)
     {
         if (Status != LoanStatus.Pending)
@@ -104,8 +202,9 @@ public class LoanRequest : BaseEntity
         Status = LoanStatus.Rejected;
         RejectionReason = rejectionReason.Trim();
         ReviewedDate = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
-    
+
     public void PayInstallment(Guid installmentId, decimal amountPaid, DateTime paymentDate)
     {
         if (Status != LoanStatus.Approved)

@@ -1,7 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QarzAlHasana.API.Contracts.Guarantors;
 using QarzAlHasana.API.Contracts.LoanRequests;
+using QarzAlHasana.Application.Features.Guarantors.Commands.AddGuarantor;
+using QarzAlHasana.Application.Features.Guarantors.Commands.ConfirmGuarantor;
+using QarzAlHasana.Application.Features.Guarantors.Queries.GetPendingGuaranteeRequests;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.ApproveLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.CreateLoanRequest;
 using QarzAlHasana.Application.Features.LoanRequests.Commands.PayInstallment;
@@ -132,6 +136,55 @@ public sealed class LoanRequestsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(new GetLoanRequestByIdQuery(id), cancellationToken);
+
+        return Ok(result);
+    }
+    
+    [HttpPost("{id:guid}/guarantors")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> AddGuarantor(
+        [FromRoute] Guid id,
+        [FromBody] AddGuarantorRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddGuarantorCommand(
+            id,
+            request.GuarantorMemberId,
+            request.CommittedAmount);
+
+        await _sender.Send(command, cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPost("{id:guid}/guarantors/{guarantorId:guid}/confirm")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> ConfirmGuarantor(
+        [FromRoute] Guid id,
+        [FromRoute] Guid guarantorId,
+        CancellationToken cancellationToken)
+    {
+        var command = new ConfirmGuarantorCommand(id, guarantorId);
+
+        await _sender.Send(command, cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpGet("guarantees/me")]
+    [ProducesResponseType(typeof(List<PendingGuaranteeRequestDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<PendingGuaranteeRequestDto>>> GetMyPendingGuarantees(
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(
+            new GetPendingGuaranteeRequestsQuery(),
+            cancellationToken);
 
         return Ok(result);
     }

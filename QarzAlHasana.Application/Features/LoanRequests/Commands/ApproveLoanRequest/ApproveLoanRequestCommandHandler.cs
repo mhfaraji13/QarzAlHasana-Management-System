@@ -26,7 +26,7 @@ public sealed class ApproveLoanRequestCommandHandler
         CancellationToken cancellationToken)
     {
         var loanRequest = await _loanRequestRepository
-            .GetByIdAsync(request.LoanRequestId, cancellationToken);
+            .GetByIdWithGuarantorsAsync(request.LoanRequestId, cancellationToken);
 
         if (loanRequest is null)
         {

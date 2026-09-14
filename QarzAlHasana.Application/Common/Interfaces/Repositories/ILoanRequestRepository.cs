@@ -19,6 +19,7 @@ public interface ILoanRequestRepository
     Task<LoanRequest?> GetByIdWithInstallmentsAsync(Guid id, CancellationToken cancellationToken);
     Task<List<PendingLoanRequestDto>> GetPendingAsync(CancellationToken cancellationToken);
     Task<LoanRequestDetailDto?> GetDetailByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<LoanRequest?> GetByIdWithGuarantorsAsync(Guid id, CancellationToken cancellationToken);
 
     Task AddAsync(LoanRequest loanRequest, CancellationToken cancellationToken = default);
 
