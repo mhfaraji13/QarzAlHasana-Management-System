@@ -1,4 +1,4 @@
-[README (1).md](https://github.com/user-attachments/files/32175586/README.1.md)
+
 # QarzAlHasana — Interest-Free Loan Fund API
 
 A backend for a *qarz al-hasana* fund: a community savings pool where members pay
