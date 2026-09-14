@@ -17,6 +17,7 @@ public class MemberConfiguration : IEntityTypeConfiguration<Member>
         builder.HasIndex(m => m.NationalCode).IsUnique();
         builder.HasIndex(m => m.PhoneNumber).IsUnique();
         
+        
         builder.HasQueryFilter(m => !m.IsDeleted);
     }
 }
